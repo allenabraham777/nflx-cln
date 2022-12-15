@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -10,7 +12,6 @@ import Header from "../../components/Header";
 import { firebaseAuth } from "../../utils/firebase";
 
 import t from "./text";
-import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,6 +43,11 @@ const Signup = () => {
     try {
       await createUserWithEmailAndPassword(firebaseAuth, email, password);
     } catch (error) {
+      if (error.message.includes("auth/email-already-in-use")) {
+        toast.error(t.toastError("USER"));
+      } else {
+        toast.error(t.toastError());
+      }
       console.error(error);
     }
     setLoading(false);

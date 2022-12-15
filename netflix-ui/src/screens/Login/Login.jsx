@@ -8,6 +8,7 @@ import { firebaseAuth } from "../../utils/firebase";
 
 import t from "./text";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -33,6 +34,14 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(firebaseAuth, email, password);
     } catch (error) {
+      if (
+        error.message.includes("auth/user-not-found") ||
+        error.message.includes("auth/wrong-password")
+      ) {
+        toast.error(t.toastError("USER"));
+      } else {
+        toast.error(t.toastError());
+      }
       console.error(error);
     }
     setLoading(false);
