@@ -20,6 +20,8 @@ const Signup = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title =
+      "Netflix Clone – Watch TV Shows Online, Watch Movies Online";
     onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (currentUser) navigate("/");
     });
@@ -64,7 +66,10 @@ const Signup = () => {
           )}
         >
           <input
-            className="py-2 px-6 text-sm h-12 my-2 md:my-0 md:w-96 outline-none w-[100%] rounded-sm"
+            className={classnames(
+              "py-2 px-6 text-sm h-12 my-2 md:my-0 md:w-96 outline-none w-[100%]",
+              { "rounded-sm": showPassword }
+            )}
             type="email"
             name="email"
             placeholder={t.emailAddress()}
@@ -82,8 +87,8 @@ const Signup = () => {
           />
           <button
             className={classnames(
-              "bg-[#E50914] text-white h-12 px-6 py-2 text-lg font-bold outline-none rounded-sm",
-              { "px-12": showPassword }
+              "bg-[#E50914] text-white h-12 px-6 py-2 text-lg font-bold outline-none",
+              { "px-12 rounded-sm": showPassword }
             )}
             onClick={handleGetStarted}
           >

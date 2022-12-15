@@ -7,7 +7,7 @@ import Header from "../../components/Header";
 import { firebaseAuth } from "../../utils/firebase";
 
 import t from "./text";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -16,6 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = "Nextflix Clone";
     onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (currentUser) navigate("/");
     });
@@ -70,9 +71,9 @@ const Login = () => {
         <div className="mt-12 text-gray-400 text-sm">
           <p>
             {t.newToNetflix()}{" "}
-            <a href="/signup" className="text-white">
+            <Link to="/signup" className="text-white">
               {t.signup()}
-            </a>
+            </Link>
           </p>
         </div>
       </div>
