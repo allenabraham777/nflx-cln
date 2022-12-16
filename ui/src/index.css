@@ -6,6 +6,10 @@
   font-family: sans-serif;
 }
 
+/* ::-webkit-scrollbar {
+  display: none;
+} */
+
 @keyframes expand {
   from {
     width: 0;

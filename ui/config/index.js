@@ -8,6 +8,11 @@ const config = {
       messagingSenderId: "1004885515543",
       appId: "1:1004885515543:web:cb2556dbc1fb3b682c6b52",
     },
+    tmdb: {
+      apiKey: "d1f6137c37a621505e44c4a02843275c",
+      baseUrl: "https://api.themoviedb.org/3",
+      imageBaseUrl: "https://image.tmdb.org/t/p/w500",
+    },
   },
 };
 

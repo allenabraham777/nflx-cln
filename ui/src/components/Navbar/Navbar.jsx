@@ -30,7 +30,7 @@ const Navbar = ({ isScrolled }) => {
         className={classNames(
           "flex justify-between sticky top-0 w-[100%] py-4 px-6 md:px-20",
           {
-            "bg-black": isScrolled,
+            "bg-zinc-900": isScrolled,
           }
         )}
       >
@@ -63,8 +63,8 @@ const Navbar = ({ isScrolled }) => {
         <div className="flex items-center max-w-[180px] md:max-w-2xl">
           <div
             className={classNames(
-              "flex justify-end transition-[width] ease-in-out",
-              { "md:border md:rounded-sm": showSearch }
+              "flex justify-end transition-[width] ease-in-out bg-zinc-900 md:bg-transparent",
+              { "md:border md:rounded-sm md:bg-zinc-900": showSearch }
             )}
           >
             <button

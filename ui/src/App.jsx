@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
+import Player from "./screens/Player";
 import Signup from "./screens/Signup";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/player" element={<Player />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />
