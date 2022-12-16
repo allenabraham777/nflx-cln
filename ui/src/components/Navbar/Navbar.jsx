@@ -25,10 +25,10 @@ const Navbar = ({ isScrolled }) => {
   };
 
   return (
-    <div className="w-[100%]">
+    <div className="w-[100%] z-50 fixed">
       <nav
         className={classNames(
-          "flex justify-between sticky top-0 w-[100%] py-4 px-8",
+          "flex justify-between sticky top-0 w-[100%] py-4 px-6 md:px-20",
           {
             "bg-black": isScrolled,
           }
