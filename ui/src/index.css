@@ -24,3 +24,13 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #880309;
 }
+
+@layer base {
+  body {
+    @apply bg-zinc-900 text-white;
+  }
+}
+
+iframe body {
+  width: 100%;
+}

@@ -11,8 +11,15 @@ const config = {
     tmdb: {
       apiKey: "d1f6137c37a621505e44c4a02843275c",
       baseUrl: "https://api.themoviedb.org/3",
-      imageBaseUrl: "https://image.tmdb.org/t/p/w500",
+      imageBaseUrl: "https://image.tmdb.org/t/p",
+      titleImagesUrl(id, type) {
+        return `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${this.apiKey}`;
+      },
+      videosUrl(id, type) {
+        return `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${this.apiKey}`;
+      },
     },
+    sampleVideo: "9xwazD5SyVg",
   },
 };
 

@@ -11,7 +11,7 @@ const Slider = () => {
   };
 
   return (
-    <div className="pt-12 md:pt-0 md:-mt-24 z-40  overflow-x-hidden">
+    <div className="pt-12 md:pt-0 md:-mt-24 z-40  overflow-x-hidden pb-96">
       <CardSlider title={t.trending()} data={getMoviesFromRange(0, 10)} />
       <CardSlider title={t.topPicks()} data={getMoviesFromRange(10, 20)} />
       <CardSlider title={t.popular()} data={getMoviesFromRange(20, 30)} />

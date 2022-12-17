@@ -34,24 +34,37 @@ export const fetchMovies = createAsyncThunk(
       true
     );
     return data;
-    // return getRawData(
-    //   `${config.application.tmdb.baseUrl}/discover/${type}?api_key=${config.application.tmdb.apiKey}`
-    // );
   }
 );
 
-const getRawData = async (api, genresMap, paging) => {
+export const fetchByGenre = createAsyncThunk(
+  "netflix/genre",
+  async ({ genre, type }, store) => {
+    const {
+      netflix: { genresMap },
+    } = store.getState();
+    const data = await getRawData(
+      `${config.application.tmdb.baseUrl}/discover/${type}?api_key=${config.application.tmdb.apiKey}&with_genres=${genre}`,
+      genresMap,
+      false,
+      type
+    );
+    return data;
+  }
+);
+
+const getRawData = async (api, genresMap, paging, type) => {
   const movies = [];
   for (let i = 1; movies.length < 60 && i < 10; i++) {
     const {
       data: { results },
     } = await axios.get(`${api}${paging ? `&page=${i}` : ""}`);
-    createArrarFromRawData(results, movies, genresMap);
+    createArrarFromRawData(results, movies, genresMap, type);
   }
   return movies;
 };
 
-const createArrarFromRawData = (results, movies, genresMap) => {
+const createArrarFromRawData = (results, movies, genresMap, type) => {
   results.forEach((movie) => {
     const movieGeneres = [];
     movie.genre_ids.forEach((genre) => {
@@ -62,6 +75,8 @@ const createArrarFromRawData = (results, movies, genresMap) => {
       movies.push({
         id: movie.id,
         name: movie.original_name ? movie.original_name : movie.original_title,
+        type: movie.media_type || type,
+        description: movie.overview,
         image: movie.backdrop_path,
         genres: movieGeneres.slice(0, 3),
       });
@@ -83,6 +98,9 @@ const NetflixSlice = createSlice({
       state.genresLoaded = true;
     });
     builder.addCase(fetchMovies.fulfilled, (state, action) => {
+      state.movies = action.payload;
+    });
+    builder.addCase(fetchByGenre.fulfilled, (state, action) => {
       state.movies = action.payload;
     });
   },

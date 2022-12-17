@@ -33,6 +33,8 @@ const CardSlider = ({ title, data }) => {
     }
   };
 
+  if (!data?.length) return null;
+
   return (
     <div
       className="mt-8 relative pl-6 md:pl-20"

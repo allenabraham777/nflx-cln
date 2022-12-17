@@ -9,7 +9,7 @@ import { firebaseAuth } from "../../utils/firebase";
 
 import t from "./text";
 
-const Navbar = ({ isScrolled }) => {
+const Navbar = ({ isScrolled, isFixed = true }) => {
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);
   const navigate = useNavigate();
@@ -25,10 +25,10 @@ const Navbar = ({ isScrolled }) => {
   };
 
   return (
-    <div className="w-[100%] z-50 fixed">
+    <div className={classNames("w-[100%] z-50", { fixed: isFixed })}>
       <nav
         className={classNames(
-          "flex justify-between sticky top-0 w-[100%] py-4 px-6 md:px-20",
+          "flex justify-between sticky top-0 w-[100%] py-4 px-6 md:px-20 transition-all duration-1000",
           {
             "bg-zinc-900": isScrolled,
           }
@@ -80,10 +80,10 @@ const Navbar = ({ isScrolled }) => {
               type="text"
               name="search"
               className={classNames(
-                "w-[100%] p-1 px-2 text-sm border md:border-none rounded-sm md:rounded-none bg-transparent text-white outline-none",
+                "w-full p-1 px-2 text-sm border md:border-none rounded-sm md:rounded-none bg-transparent text-white outline-none transition-[width] duration-1000 overflow-hidden",
                 {
-                  "block animate-expand": showSearch,
-                  "md:hidden md:w-[0%]": !showSearch,
+                  "md:block": showSearch,
+                  "md:w-0": !showSearch,
                 }
               )}
               placeholder={t.search()}
