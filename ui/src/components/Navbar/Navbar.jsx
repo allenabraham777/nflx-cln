@@ -82,7 +82,7 @@ const Navbar = ({ isScrolled }) => {
               className={classNames(
                 "w-[100%] p-1 px-2 text-sm border md:border-none rounded-sm md:rounded-none bg-transparent text-white outline-none",
                 {
-                  "block show-search": showSearch,
+                  "block animate-expand": showSearch,
                   "md:hidden md:w-[0%]": !showSearch,
                 }
               )}

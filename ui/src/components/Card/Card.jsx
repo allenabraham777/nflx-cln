@@ -8,44 +8,51 @@ import { BiChevronDown } from "react-icons/bi";
 import { RxDotFilled } from "react-icons/rx";
 import video from "../../assets/video.mp4";
 import classNames from "classnames";
+import { useRef } from "react";
 
 const Card = ({ movie, index, listRef, last }) => {
   const navigate = useNavigate();
   const isLiked = false;
+  const ref = useRef();
+
+  const pushToScreen = () => {
+    const rect = ref.current.getBoundingClientRect();
+    const rightPosition = rect.right - document.body.clientWidth;
+    const leftPosition = rect.left;
+    if (rightPosition > -100) ref.current.style.justifyContent = `flex-end`;
+    if (leftPosition < 200) ref.current.style.justifyContent = `flex-start`;
+  };
+
+  const resetReposition = () => {
+    ref.current.style.justifyContent = `center`;
+  };
 
   return (
     <div
       className="flex-shrink-0 group cursor-pointer max-w-[230px] w-[230px] relative bg-zinc-900 overflow-y-visible transition-all"
       onClick={() => navigate("/player")}
       ref={listRef}
+      onMouseEnter={pushToScreen}
+      onMouseLeave={resetReposition}
     >
       <img
         src={`${config.application.tmdb.imageBaseUrl}/${movie.image}`}
         alt={`image-${movie.name}`}
         className="w-[100%] roundes-md"
       />
-      <div className="hidden md:block">
-        <div
-          className={classNames(
-            "transition-[width] hidden w-0 group-hover:block group-hover:w-[350px] group-hover:z-10 absolute top-0 -translate-y-1/4 bg-zinc-900 rounded-md shadow-md shadow-black overflow-hidden",
-            {
-              "left-0": !index,
-              "-translate-x-[25px]": index && !last,
-              "right-0": last,
-            }
-          )}
-        >
+      <div className="hidden md:flex justify-center items-center" ref={ref}>
+        <div className="transition-[width] hidden w-0 group-hover:animate-appear group-hover:block group-hover:w-[350px] group-hover:z-10 absolute top-0 -translate-y-1/4 bg-zinc-900 rounded-md shadow-md shadow-black overflow-hidden">
           <img
             src={`${config.application.tmdb.imageBaseUrl}/${movie.image}`}
             alt={`image-${movie.name}`}
-            className="w-[100%] roundes-md"
+            className="w-[100%]"
           />
           <video
             src={video}
             autoPlay
             loop
             muted
-            className="w-[100%] absolute top-0"
+            className="w-[100%] absolute h-auto top-0 left-0"
           />
           <div className="flex flex-col px-4 py-8">
             <h3 className="text-xl font-bold">{movie.name}</h3>
@@ -58,7 +65,7 @@ const Card = ({ movie, index, listRef, last }) => {
                   className={classNames({ hidden: !isLiked })}
                   title="Remove from list"
                 />
-                <BsCheck
+                <AiOutlinePlus
                   className={classNames({ hidden: isLiked })}
                   title="Add to my list"
                 />

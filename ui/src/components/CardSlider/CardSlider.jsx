@@ -6,6 +6,7 @@ import Card from "../Card/Card";
 const CardSlider = ({ title, data }) => {
   const [showControls, setShowControls] = useState(false);
   const [sliderPosition, setSliderPosition] = useState(0);
+  const [showLeft, setShowLeft] = useState(false);
   const listRef = useRef();
   const lastRef = useRef();
 
@@ -15,13 +16,20 @@ const CardSlider = ({ title, data }) => {
       document.body.clientWidth +
       240;
     const leftPosition = listRef.current.getBoundingClientRect().right;
-    if (direction === "left" && rightPosition > 0) {
+    if (direction === "right" && rightPosition > 0) {
       listRef.current.style.marginLeft = `-${(sliderPosition + 1) * 240}px`;
       setSliderPosition(sliderPosition + 1);
+      setShowLeft(true);
     }
-    if (direction === "right" && leftPosition < 80) {
-      listRef.current.style.marginLeft = `-${(sliderPosition - 1) * 240}px`;
-      setSliderPosition(sliderPosition - 1);
+
+    if (direction === "left") {
+      if (leftPosition < 80) {
+        listRef.current.style.marginLeft = `-${(sliderPosition - 1) * 240}px`;
+        setSliderPosition(sliderPosition - 1);
+      }
+      if (sliderPosition - 1 < 1) {
+        setShowLeft(false);
+      }
     }
   };
 
@@ -34,27 +42,27 @@ const CardSlider = ({ title, data }) => {
       <h1 className="text-xl md:text-2xl font-bold capitalize my-2">{title}</h1>
       <div
         className={classNames(
-          "absolute text-5xl top-[50%] z-40 -ml-16 cursor-pointer hidden md:block",
-          { "md:hidden": !showControls }
+          "absolute text-5xl bottom-0 z-40 -ml-20 px-6 cursor-pointer hidden bg-gradient-to-r from-zinc-900 to-transparent h-[129px] md:flex items-center",
+          {
+            "md:hidden": !showControls || !showLeft,
+          }
         )}
+        onClick={() => {
+          handleDirection("left");
+        }}
       >
-        <BsChevronCompactLeft
-          onClick={() => {
-            handleDirection("left");
-          }}
-        />
+        <BsChevronCompactLeft />
       </div>
       <div
         className={classNames(
-          "absolute text-5xl right-0 top-[50%] z-50 mr-4 cursor-pointer hidden md:block",
+          "absolute text-5xl right-0 bottom-0 z-50 cursor-pointer hidden md:flex h-[129px] bg-gradient-to-l from-zinc-900 to-transparent items-center px-6",
           { "md:hidden": !showControls }
         )}
+        onClick={() => {
+          handleDirection("right");
+        }}
       >
-        <BsChevronCompactRight
-          onClick={() => {
-            handleDirection("right");
-          }}
-        />
+        <BsChevronCompactRight />
       </div>
       <div className="flex items-center gap-2 overflow-x-scroll md:overflow-visible">
         {data.map((movie, index) => (

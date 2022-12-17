@@ -6,20 +6,21 @@
   font-family: sans-serif;
 }
 
-/* ::-webkit-scrollbar {
-  display: none;
-} */
-
-@keyframes expand {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.3rem;
 }
 
-.show-search {
-  animation-name: expand;
-  animation-duration: 0.2s;
+::-webkit-scrollbar-track {
+  background: rgb(24 24 27);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e50914;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #880309;
 }
