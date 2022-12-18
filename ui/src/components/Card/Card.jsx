@@ -1,5 +1,5 @@
-import { useState } from "react";
 import config from "config";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoPlayCircleSharp } from "react-icons/io5";
 import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
@@ -7,15 +7,50 @@ import { BsCheck } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";
 import { RxDotFilled } from "react-icons/rx";
+import { toast } from "react-toastify";
 import classNames from "classnames";
-import { useRef } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { firebaseAuth } from "../../utils/firebase";
 import Video from "../Video";
+import apis from "../../utils/apis";
+import { useDispatch } from "react-redux";
+import { removeFromFavourites } from "../../store";
 
-const Card = ({ movie, index, listRef, last }) => {
+const Card = ({ movie, updateFavourites, listRef, isLiked }) => {
   const [showVideo, setShowVideo] = useState(false);
+  const [email, setEmail] = useState(null);
   const navigate = useNavigate();
-  const isLiked = false;
+  const dispatch = useDispatch();
   const ref = useRef();
+
+  useEffect(() => {
+    onAuthStateChanged(firebaseAuth, (currentUser) => {
+      if (!currentUser) navigate("/login");
+      setEmail(currentUser.email);
+    });
+  }, []);
+
+  const addToFavourites = async (e) => {
+    e.stopPropagation();
+    try {
+      await apis.addVideoToFavourite(email, movie);
+      updateFavourites();
+      toast.success(`Added ${movie.name} to favorites`);
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+    }
+  };
+
+  const removeVideoFromFavourites = async (e) => {
+    e.stopPropagation();
+    try {
+      dispatch(removeFromFavourites({ email, movie }));
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+    }
+  };
 
   const pushToScreen = () => {
     if (document.body.clientWidth >= 768) {
@@ -68,10 +103,12 @@ const Card = ({ movie, index, listRef, last }) => {
                 <BsCheck
                   className={classNames({ hidden: !isLiked })}
                   title="Remove from list"
+                  onClick={removeVideoFromFavourites}
                 />
                 <AiOutlinePlus
                   className={classNames({ hidden: isLiked })}
                   title="Add to my list"
+                  onClick={addToFavourites}
                 />
               </div>
               <div className="rounded-full border-2">
@@ -82,13 +119,18 @@ const Card = ({ movie, index, listRef, last }) => {
               <ul className="flex gap-1 items-center">
                 {movie.genres.map((genre, index) => (
                   <>
-                    <li key={genre}>{genre}</li>
                     <li
-                      className={classNames({
-                        hidden: index == movie.genres.length - 1,
-                      })}
+                      className="flex items-center gap-1"
+                      key={`${genre}-${index}`}
                     >
-                      <RxDotFilled />
+                      {genre}{" "}
+                      {
+                        <RxDotFilled
+                          className={classNames({
+                            hidden: index == movie.genres.length - 1,
+                          })}
+                        />
+                      }
                     </li>
                   </>
                 ))}

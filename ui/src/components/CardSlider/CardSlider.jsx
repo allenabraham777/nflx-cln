@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import Card from "../Card/Card";
 
-const CardSlider = ({ title, data }) => {
+const CardSlider = ({ title, data, favourites, updateFavourites }) => {
   const [showControls, setShowControls] = useState(false);
   const [sliderPosition, setSliderPosition] = useState(0);
   const [showLeft, setShowLeft] = useState(false);
@@ -71,11 +71,12 @@ const CardSlider = ({ title, data }) => {
           <Card
             movie={movie}
             index={index}
-            key={movie.id}
+            key={`${movie.id}-${index}`}
             listRef={
               !index ? listRef : index === data.length - 1 ? lastRef : null
             }
-            last={index === data.length - 1}
+            isLiked={favourites[movie.id]}
+            updateFavourites={updateFavourites}
           />
         ))}
       </div>

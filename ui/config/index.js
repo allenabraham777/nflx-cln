@@ -1,4 +1,7 @@
 const config = {
+  api: {
+    url: "http://localhost:3001/api",
+  },
   application: {
     firebase: {
       apiKey: "AIzaSyDEIzjuggXUwSAKvp_v-QT1A24UoYYPog0",

@@ -19,6 +19,26 @@ export const getGenres = createAsyncThunk("netflix/genres", async () => {
   return genres;
 });
 
+export const getFavourites = createAsyncThunk(
+  "netflix/favourites",
+  async (email) => {
+    const {
+      data: { favourites },
+    } = await apis.getFavourites(email);
+    return favourites;
+  }
+);
+
+export const removeFromFavourites = createAsyncThunk(
+  "netflix/favourites/delete",
+  async ({ email, movie: { id } }) => {
+    const {
+      data: { movies },
+    } = await apis.deleteVideoFromFavourites(email, id);
+    return movies;
+  }
+);
+
 export const fetchMovies = createAsyncThunk(
   "netflix/trending",
   async ({ type }, store) => {
@@ -98,6 +118,12 @@ const NetflixSlice = createSlice({
       state.movies = action.payload;
     });
     builder.addCase(fetchByGenre.fulfilled, (state, action) => {
+      state.movies = action.payload;
+    });
+    builder.addCase(getFavourites.fulfilled, (state, action) => {
+      state.movies = action.payload;
+    });
+    builder.addCase(removeFromFavourites.fulfilled, (state, action) => {
       state.movies = action.payload;
     });
   },

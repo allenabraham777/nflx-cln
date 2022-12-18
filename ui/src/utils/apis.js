@@ -31,10 +31,22 @@ export const getVideo = (movieId, type) => {
   return axios.get(api);
 };
 
+export const addVideoToFavourite = (email, movie) =>
+  axios.post(`${config.api.url}/user/movies`, { email, data: movie });
+
+export const getFavourites = (email) =>
+  axios.get(`${config.api.url}/user/${email}/movies`);
+
+export const deleteVideoFromFavourites = (email, movieId) =>
+  axios.delete(`${config.api.url}/user/${email}/movies/${movieId}`);
+
 export default {
   getGenres,
   getTrendingMovies,
   getMoviesByGenre,
   getCoverImage,
   getVideo,
+  addVideoToFavourite,
+  getFavourites,
+  deleteVideoFromFavourites,
 };

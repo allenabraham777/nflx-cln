@@ -5,6 +5,7 @@ import "./App.css";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Movies from "./screens/Movies";
+import MyList from "./screens/MyList";
 import Player from "./screens/Player";
 import Signup from "./screens/Signup";
 import TVShows from "./screens/TVShows";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/player" element={<Player />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/tv" element={<TVShows />} />
+          <Route path="/mylist" element={<MyList />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />
