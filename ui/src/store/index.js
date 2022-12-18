@@ -3,8 +3,7 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-import config from "config";
-import axios from "axios";
+import apis from "../utils/apis";
 
 const initialState = {
   movies: [],
@@ -16,9 +15,7 @@ const initialState = {
 export const getGenres = createAsyncThunk("netflix/genres", async () => {
   const {
     data: { genres },
-  } = await axios.get(
-    `${config.application.tmdb.baseUrl}/genre/movie/list?api_key=${config.application.tmdb.apiKey}`
-  );
+  } = await apis.getGenres();
   return genres;
 });
 
@@ -29,7 +26,7 @@ export const fetchMovies = createAsyncThunk(
       netflix: { genresMap },
     } = store.getState();
     const data = await getRawData(
-      `${config.application.tmdb.baseUrl}/trending/${type}/week?api_key=${config.application.tmdb.apiKey}`,
+      apis.getTrendingMovies(type),
       genresMap,
       true
     );
@@ -44,7 +41,7 @@ export const fetchByGenre = createAsyncThunk(
       netflix: { genresMap },
     } = store.getState();
     const data = await getRawData(
-      `${config.application.tmdb.baseUrl}/discover/${type}?api_key=${config.application.tmdb.apiKey}&with_genres=${genre}`,
+      apis.getMoviesByGenre(type, genre),
       genresMap,
       false,
       type
@@ -58,7 +55,7 @@ const getRawData = async (api, genresMap, paging, type) => {
   for (let i = 1; movies.length < 60 && i < 10; i++) {
     const {
       data: { results },
-    } = await axios.get(`${api}${paging ? `&page=${i}` : ""}`);
+    } = await api(paging, i);
     createArrarFromRawData(results, movies, genresMap, type);
   }
   return movies;
