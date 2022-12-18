@@ -7,13 +7,9 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     max: 50,
   },
-  favourites: [
-    {
-      id: {
-        type: String,
-      },
-    },
-  ],
+  favourites: {
+    type: Array,
+  },
 });
 
 export const User = mongoose.model("User", UserSchema);
