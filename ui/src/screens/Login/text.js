@@ -14,6 +14,8 @@ export const toastError = (type) => {
   switch (type) {
     case "USER":
       return "Invalid username or password!";
+    case "EMPTY":
+      return "Please provide username and password!";
     default:
       return "Something went wrong, please try again later.";
   }

@@ -21,6 +21,15 @@ const Login = () => {
     onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (currentUser) navigate("/");
     });
+    document.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        handleLogin();
+      }
+    });
+
+    return () => {
+      document.addEventListener("keypress", null);
+    };
   }, []);
 
   const handleLogin = async () => {
@@ -28,7 +37,10 @@ const Login = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    if (!email || !password) return;
+    if (!email || !password) {
+      toast.error(t.toastError("EMPTY"));
+      return;
+    }
 
     setLoading(true);
     try {

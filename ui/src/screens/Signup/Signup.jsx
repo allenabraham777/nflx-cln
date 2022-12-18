@@ -26,18 +26,31 @@ const Signup = () => {
     onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (currentUser) navigate("/");
     });
+    document.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        handleGetStarted();
+      }
+    });
+
+    return () => {
+      document.addEventListener("keypress", null);
+    };
   }, []);
 
   const handleGetStarted = async () => {
+    const email = emailRef.current.value;
     if (loading) return;
     if (!showPassword) {
+      if (!email) return;
       setShowPassword(true);
       return;
     }
-    const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    if (!email || !password) return;
+    if (!email || !password) {
+      toast.error(t.toastError("EMPTY"));
+      return;
+    }
 
     setLoading(true);
     try {
@@ -54,7 +67,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-[100vh] w-[100vw]">
+    <div className="flex justify-center items-center h-[100vh] w-[100vw] text-black">
       <BackgroundImage />
       <div className="fixed top-0 left-0 w-[100%]">
         <Header login />
