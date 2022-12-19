@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import "colors";
 import userRoutes from "./routes/userRoutes.js";
+import path from "path";
 
 dotenv.config();
 
@@ -15,6 +16,18 @@ app.use(cors());
 app.use(express.json());
 
 userRoutes(app);
+
+const dirname = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(dirname, "../ui/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(dirname, "../ui", "dist", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.json({ message: "API running successfully" });
+  });
+}
 
 const initApp = async () => {
   try {
