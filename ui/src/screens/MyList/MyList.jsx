@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Card from "../../components/Card/Card";
 import Navbar from "../../components/Navbar";
-import { getFavourites } from "../../store";
+import { getFavourites, resetMovies } from "../../store";
 import { firebaseAuth } from "../../utils/firebase";
 
 import t from "./text";
@@ -17,6 +17,7 @@ const MyList = () => {
   const movies = useSelector((state) => state.netflix.movies);
 
   useEffect(() => {
+    dispatch(resetMovies());
     document.title = "Nextflix Clone";
     onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (!currentUser) navigate("/login");

@@ -8,7 +8,7 @@ import SelectGenre from "../../components/misc/SelectGenre/SelectGenre";
 import Navbar from "../../components/Navbar";
 import NotAvailable from "../../components/NotAvailable/NotAvailable";
 import Slider from "../../components/Slider";
-import { fetchMovies, getGenres } from "../../store";
+import { fetchMovies, getGenres, resetMovies } from "../../store";
 import { firebaseAuth } from "../../utils/firebase";
 import { generateCover } from "../../utils/tmdb";
 
@@ -20,10 +20,10 @@ const Movies = () => {
   const dispatch = useDispatch();
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
   const movies = useSelector((state) => state.netflix.movies);
-  const genres = useSelector((state) => state.netflix.genres);
   const [cover, setCover] = useState({});
 
   useEffect(() => {
+    dispatch(resetMovies());
     document.title = "Movies - Nextflix Clone";
     onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (!currentUser) navigate("/login");

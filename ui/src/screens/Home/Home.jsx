@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
-import constants from "../../constants/home";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMovies, getGenres } from "../../store";
+import { fetchMovies, getGenres, resetMovies } from "../../store";
 
 import Slider from "../../components/Slider";
 import LandingCard from "../../components/LandingCard";
@@ -16,6 +15,7 @@ const Home = () => {
   const [cover, setCover] = useState({});
 
   useEffect(() => {
+    dispatch(resetMovies());
     document.title = "Home - Nextflix Clone";
     window.onscroll = () => {
       setIsScrolled(window.pageYOffset === 0 ? false : true);

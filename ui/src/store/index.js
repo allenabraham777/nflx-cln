@@ -104,6 +104,11 @@ const createArrarFromRawData = (results, movies, genresMap, type) => {
 const NetflixSlice = createSlice({
   name: "Netflix",
   initialState,
+  reducers: {
+    resetMovies: (state) => {
+      state.movies = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getGenres.fulfilled, (state, action) => {
       state.genres = action.payload;
@@ -128,6 +133,8 @@ const NetflixSlice = createSlice({
     });
   },
 });
+
+export const { resetMovies } = NetflixSlice.actions;
 
 export const store = configureStore({
   reducer: {
