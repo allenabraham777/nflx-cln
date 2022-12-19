@@ -1,6 +1,6 @@
 const config = {
   api: {
-    url: "http://localhost:3001/api",
+    url: "/api",
   },
   application: {
     firebase: {
