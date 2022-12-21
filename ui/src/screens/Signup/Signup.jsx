@@ -22,7 +22,7 @@ const Signup = () => {
 
   useEffect(() => {
     document.title =
-      "Netflix Clone – Watch TV Shows Online, Watch Movies Online";
+      "Not Netflix – Watch TV Shows Online, Watch Movies Online";
     onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (currentUser) navigate("/");
     });

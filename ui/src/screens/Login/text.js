@@ -6,7 +6,7 @@ export const emailAddress = () => "Email address";
 
 export const password = () => "Password";
 
-export const newToNetflix = () => "New to Netflix?";
+export const newToNetflix = () => "New to Not Netflix?";
 
 export const signup = () => "Sign up now";
 

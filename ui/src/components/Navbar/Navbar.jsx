@@ -38,7 +38,7 @@ const Navbar = ({ isScrolled, isFixed = true }) => {
           <div className="flex items-center-justify-center">
             <img
               src={netflixLogo}
-              alt="netflix"
+              alt="not-netflix"
               className="h-[2rem] object-contain"
             />
           </div>

@@ -16,7 +16,7 @@ const Header = ({ login }) => {
   return (
     <div className="w-[100%] py-4 px-8 flex items-center justify-between">
       <div>
-        <img src={netflixLogo} alt="netflix" className="h-[3rem]" />
+        <img src={netflixLogo} alt="not-netflix" className="h-[3rem]" />
       </div>
       <button
         onClick={redirect}
